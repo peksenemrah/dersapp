@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* ─── Zeytuni Renk Paleti ─────────────────────────────────────────────────── */
+:root {
+  --color-primary: #5A5A40;
+  --color-primary-light: #7A7A60;
+  --color-primary-dark: #3A3A20;
+  --color-bg: #F5F5F0;
+  --color-bg-card: #FFFFFF;
+  --color-border: #E0DDD0;
+  --color-text: #2C2C1E;
+  --color-text-muted: #6B6B50;
+}
+
+/* ─── Temel Sıfırlama ─────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+}
+
+/* ─── Tipografi ───────────────────────────────────────────────────────────── */
+.font-serif {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #C5C5B0;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9E9E80;
+}
+
+/* ─── Yazdırma ────────────────────────────────────────────────────────────── */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 11px;
+  }
+
+  table {
+    page-break-inside: auto;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  th, td {
+    border: 1px solid #ccc !important;
+    padding: 6px !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  @page {
+    size: landscape;
+    margin: 1.5cm;
+  }
+}
+
+/* ─── Animasyonlar ────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 0.75s linear infinite;
+}

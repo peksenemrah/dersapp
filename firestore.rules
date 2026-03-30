@@ -1,0 +1,133 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Yardımcı fonksiyonlar
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserData().role == 'admin';
+    }
+
+    function isTeacher() {
+      return isAuthenticated() && getUserData().role == 'teacher';
+    }
+
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    function isActiveUser() {
+      return isAuthenticated() && getUserData().isActive == true;
+    }
+
+    function isValidLogStatus(status) {
+      return status in ['completed', 'partial', 'postponed', 'not_completed', 'leave'];
+    }
+
+    function isValidLog(data) {
+      return data.keys().hasAll(['teacherId', 'lessonId', 'date', 'status'])
+        && data.teacherId is string
+        && data.lessonId is string
+        && data.date is string
+        && isValidLogStatus(data.status);
+    }
+
+    // Kullanıcılar koleksiyonu
+    match /users/{uid} {
+      allow read: if isAuthenticated() && (isOwner(uid) || isAdmin());
+      allow create: if isAdmin();
+      allow update: if isAdmin() || (isOwner(uid) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['mustChangePassword', 'lastLoginAt']));
+      allow delete: if isAdmin();
+    }
+
+    // Akademik yıllar — sadece admin yazar, aktif kullanıcılar okur
+    match /academic_years/{docId} {
+      allow read: if isActiveUser();
+      allow write: if isAdmin();
+    }
+
+    // Akademik haftalar
+    match /academic_weeks/{docId} {
+      allow read: if isActiveUser();
+      allow write: if isAdmin();
+    }
+
+    // Resmi tatiller
+    match /holidays/{docId} {
+      allow read: if isActiveUser();
+      allow write: if isAdmin();
+    }
+
+    // Şubeler
+    match /sections/{docId} {
+      allow read: if isActiveUser();
+      allow write: if isAdmin();
+    }
+
+    // Dersler
+    match /lessons/{docId} {
+      allow read: if isActiveUser();
+      allow write: if isAdmin();
+    }
+
+    // Öğretmen atamaları
+    match /teacher_assignments/{docId} {
+      allow read: if isActiveUser();
+      allow write: if isAdmin();
+    }
+
+    // Haftalık ders programı
+    match /weekly_schedules/{docId} {
+      allow read: if isActiveUser();
+      allow write: if isAdmin();
+    }
+
+    // Kazanım havuzu
+    match /master_outcomes/{docId} {
+      allow read: if isActiveUser();
+      allow write: if isAdmin();
+    }
+
+    // Kazanım içe aktarma geçmişi
+    match /outcome_imports/{docId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Ders kayıtları (lesson_logs)
+    match /lesson_logs/{docId} {
+      // Öğretmen sadece kendi kayıtlarını okuyabilir; admin hepsini okuyabilir
+      allow read: if isActiveUser() && (isAdmin() || resource.data.teacherId == request.auth.uid);
+
+      // Öğretmen kendi kaydını oluşturabilir (geçerli format şartıyla)
+      allow create: if isActiveUser()
+        && request.resource.data.teacherId == request.auth.uid
+        && isValidLog(request.resource.data);
+
+      // Öğretmen kendi kaydını güncelleyebilir; admin hepsini güncelleyebilir
+      allow update: if isActiveUser()
+        && (isAdmin() || resource.data.teacherId == request.auth.uid)
+        && isValidLog(request.resource.data);
+
+      allow delete: if isAdmin();
+    }
+
+    // Öğretmen izin/rapor dönemleri
+    match /teacher_status_periods/{docId} {
+      allow read: if isActiveUser() && (isAdmin() || resource.data.teacherId == request.auth.uid);
+      allow write: if isAdmin();
+    }
+
+    // Varsayılan: erişimi reddet
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
