@@ -43,7 +43,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setCurrentUser(user);
 
       if (user) {
-        await loadOrCreateAppUser(user);
+        try {
+          await loadOrCreateAppUser(user);
+        } catch (err) {
+          console.error('loadOrCreateAppUser error:', err);
+          // Firestore hatası olsa bile Firebase Auth kullanıcısını fallback olarak kullan
+          const adminEmail = import.meta.env.VITE_ADMIN_EMAIL ?? '';
+          setAppUser({
+            uid: user.uid,
+            email: user.email ?? '',
+            displayName: user.displayName ?? user.email ?? 'Kullanıcı',
+            role: user.email === adminEmail ? 'admin' : 'teacher',
+            authProvider: 'google',
+            isActive: true,
+            mustChangePassword: false,
+            lastLoginAt: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
+          });
+        }
       } else {
         setAppUser(null);
       }
