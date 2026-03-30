@@ -82,7 +82,7 @@ export default function WeeklyView({
       .filter(([i, s]) => s.lessonId === lesson.id && Number(i) < slotIdx)
       .length;
     const weekOutcomes = masterOutcomes
-      .filter((o) => o.lessonId === lesson.id && o.weekNumber === currentWeek.weekNumber)
+      .filter((o) => o.lessonId === lesson.id && o.weekNumber === currentWeek!.weekNumber)
       .sort((a, b) => a.orderIndex - b.orderIndex);
     return weekOutcomes[priorCount] ?? null;
   }

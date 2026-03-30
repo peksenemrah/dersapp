@@ -8,7 +8,7 @@ interface Props {
   masterOutcomes: MasterOutcome[];
   academicYears: AcademicYear[];
   selectedYearId: string;
-  adminUid: string;
+  adminUid?: string;
 }
 
 interface ParsedOutcome {
@@ -17,7 +17,7 @@ interface ParsedOutcome {
   valid: boolean;
 }
 
-export default function BulkOutcomeEntry({ lessons, masterOutcomes, academicYears, selectedYearId, adminUid }: Props) {
+export default function BulkOutcomeEntry({ lessons, masterOutcomes, academicYears, selectedYearId }: Props) {
   const [selectedLessonId, setSelectedLessonId] = useState(lessons[0]?.id ?? '');
   const [weekNumber, setWeekNumber] = useState(1);
   const [rawText, setRawText] = useState('');

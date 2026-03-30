@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { parseISO, format, addDays } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { Save, RefreshCw } from 'lucide-react';
-import { addDocument, updateDocument, setDocument, deleteCollection } from '../services/firestoreService';
+import { addDocument, updateDocument, deleteCollection } from '../services/firestoreService';
 import type { AcademicYear, AcademicWeek } from '../types';
 
 interface Props {

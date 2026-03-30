@@ -95,7 +95,7 @@ export default function DailyView({
       const lesson = slot.lessonId ? (lessons.find((l) => l.id === slot.lessonId) ?? null) : null;
       const log = logs.find((lg) => lg.slotIndex === slotIndex) ?? null;
       const outcome = lesson
-        ? getOutcomeForSlot(lesson.id!, slotIndex, dayIndex, currentEducationWeek, daySchedule, masterOutcomes)
+        ? getOutcomeForSlot(lesson.id!, slotIndex, 0, currentEducationWeek, daySchedule, masterOutcomes)
         : null;
       return { slotIndex, lesson, log, outcome };
     });
@@ -404,7 +404,7 @@ function getEducationWeekNumber(date: Date, academicWeeks: AcademicWeek[]): numb
 function getOutcomeForSlot(
   lessonId: string,
   slotIndex: number,
-  dayIndex: number,
+  _dayIndex: number,
   educationWeek: number,
   daySchedule: Record<number, { lessonId: string | null }>,
   outcomes: MasterOutcome[]

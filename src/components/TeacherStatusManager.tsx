@@ -8,7 +8,7 @@ import type { AppUser, TeacherStatusPeriod } from '../types';
 interface Props {
   teachers: AppUser[];
   statusPeriods: TeacherStatusPeriod[];
-  adminUid: string;
+  adminUid?: string;
 }
 
 const STATUS_TYPE_LABELS: Record<string, string> = {
@@ -17,7 +17,7 @@ const STATUS_TYPE_LABELS: Record<string, string> = {
   duty: 'Görevlendirme',
 };
 
-export default function TeacherStatusManager({ teachers, statusPeriods, adminUid }: Props) {
+export default function TeacherStatusManager({ teachers, statusPeriods }: Props) {
   const [selectedTeacherId, setSelectedTeacherId] = useState(teachers[0]?.uid ?? '');
   const [type, setType] = useState<'leave' | 'sick' | 'duty'>('leave');
   const [startDate, setStartDate] = useState('');
