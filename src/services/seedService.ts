@@ -125,11 +125,11 @@ function buildDefaultSchedule(
 
   // 5 gün × 8 saat — haftalık limit doldurularak örnek program
   const days: Record<string, Record<number, { lessonId: string | null }>> = {
-    '0': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: mat }, 4: { lessonId: hayat }, 5: { lessonId: fen }, 6: { lessonId: din }, 7: { lessonId: beden } },
-    '1': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: sosyal }, 4: { lessonId: hayat }, 5: { lessonId: fen }, 6: { lessonId: muzik }, 7: { lessonId: gorsel } },
-    '2': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: mat }, 4: { lessonId: sosyal }, 5: { lessonId: fen }, 6: { lessonId: din }, 7: { lessonId: beden } },
-    '3': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: hayat }, 4: { lessonId: sosyal }, 5: { lessonId: fen }, 6: { lessonId: null }, 7: { lessonId: null } },
-    '4': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: hayat }, 4: { lessonId: sosyal }, 5: { lessonId: null }, 6: { lessonId: null }, 7: { lessonId: null } },
+    '0': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: hayat }, 4: { lessonId: fen }, 5: { lessonId: din } },
+    '1': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: sosyal }, 4: { lessonId: fen }, 5: { lessonId: muzik } },
+    '2': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: mat }, 4: { lessonId: sosyal }, 5: { lessonId: gorsel } },
+    '3': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: hayat }, 4: { lessonId: sosyal }, 5: { lessonId: beden } },
+    '4': { 0: { lessonId: turkce }, 1: { lessonId: turkce }, 2: { lessonId: mat }, 3: { lessonId: hayat }, 4: { lessonId: din }, 5: { lessonId: beden } },
   };
 
   return { sectionId, academicYearId, days };
